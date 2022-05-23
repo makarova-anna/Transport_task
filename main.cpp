@@ -26,6 +26,14 @@ double distance(Point A, Point B)
 }
 
 
+
+bool In(vector<bool> IN)
+{
+    for(bool i : IN)
+        if (!i)
+            return true;
+    return false;
+}
 vector <int> Algorithm(double** M, int n)
 {
     int L = 0;
@@ -48,7 +56,8 @@ vector <int> Algorithm(double** M, int n)
     return Ans;
 }
 
-}
+
+
 //file reading
 vector <string> List(string dir)
 {
@@ -60,6 +69,44 @@ vector <string> List(string dir)
     return output;
 }
 
+/////////////////
+bool check_perm(const vector <unsigned int>& base)
+{
+    for (int i = 0; i < base.size(); i++)
+    {
+        if (base[base[i] - 1] == i + 1)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+////////////////
+double cost_perm(vector <unsigned int>& permutations, vector <Point>& cords)
+{
+    double result = 0;
+    for (int i = 0; i < permutations.size(); i++)
+        result += distance(cords[i + 1], cords[permutations[i] - 1]);
+    return result;
+}
+
+///////////
+double brutforce_method(vector <Point> cords)
+{
+    vector<unsigned int> permutations(cords.size());
+    for (int i = 0; i < cords.size(); i++)
+        permutations[i] = i + 1;
+    double buf;
+    do 
+    {
+        if (check_perm(permutations))
+        {
+            buf = cost_perm(permutations, cords);
+        }
+    } while (next_permutation(permutations.begin(), permutations.end()));
+    return buf;
+}
+//////////////////
 class Graph
 {
     private:
@@ -304,6 +351,41 @@ class Graph
         }
     
 };
+/////////////class end
+
+
+int Sol(int N, vector<int> weights, int W, vector<int> values)
+{
+    vector<int> first(W+1, 0);
+    vector<int> second(W+1, 0);
+    int output = 0, i;
+    
+    for (i = 1; i <= N; i++) 
+    {
+        vector<int> tempo = first;
+        first = second;
+        second = tempo;
+        for (int j = 0; j <= W; j++)
+        {
+            second[j] = first[j];
+            if (j - weights[i - 1] >= 0) 
+            {
+                second[j] = max(second[j], first[j - weights[i - 1]] + values[i - 1]);
+            }
+        }
+    }
+    for (i = W; i >= 0; i--) 
+    {
+        if(second[i] != 0)
+        {
+            output = second[i];
+            break;
+        }
+    }
+    return output;
+}
+
+
 
 pair<double, vector<int>> fonetsp(vector<Point>& Coordinates)
 {
@@ -319,7 +401,6 @@ pair<double, vector<int>> fonetsp(vector<Point>& Coordinates)
         c++;
     }
     
-    //cout << "yeet" << endl;
     return make_pair(test.return_price(), test.return_cycle());
 }
 
@@ -327,7 +408,6 @@ pair<double, vector<int>> fonetsp(vector<Point>& Coordinates)
 Point Divide(string& DATA, int N, string sym = "")
 {
     int tr_it;
-    
     if (DATA.find("  ") != string::npos) 
     {
         tr_it = 2;
@@ -355,7 +435,7 @@ int main()
     vector <string> DATA = List("data");
     int N, i;
     string s, ksi;
-
+    double f = -1000;
     ofstream fout;
     fout.open("RES.txt");
     
@@ -432,7 +512,3 @@ int main()
     }
     fout.close();
 }
-
-
-
-
