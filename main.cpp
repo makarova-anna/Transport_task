@@ -118,32 +118,25 @@ class Graph
                 }
             }
         }
-
-        void Exterminate_the_line()
-        {
-            double c;
-            for (int i = 0; i < M.size(); i++)
-            {
-                if (deadline[i])
-                {
-                    continue;
-                }
-                c = -1;
-                for (int j = 0; j < M.size(); j++)
-                {
-                    if ((i != j) && (M[i][j] >= 0) && ((c == -1) || (M[i][j] < c)))
-                    {
-                        c = M[i][j];
-                    }
-                }
-                horizmin[i] = c;
-                for (int j = 0; j < M.size(); j++)
-                {
-                    if ((i != j) && (M[i][j] > 0))
-                    {
-                        M[i][j] -= c;
-                    }
-                }
-            }
-        }
-    
+};
+    vector <int> Algorithm(double** M, int n)
+{
+    int L = 0;
+    vector <int> Ans;
+    vector <bool> IN (n);
+    for (int i = 0; i < n; ++i)
+    {
+        if (M[L][Min1(M, n, L)] > M[i][Min1(M, n, i)])
+            L = i;
+        IN[i] = false;
+    }
+    Ans.push_back(L);
+    IN[L] = true;
+    while(In(IN))
+    {
+        L = Min(M, n, L, IN);
+        IN[L] = true;
+        Ans.push_back(L);
+    }
+    return Ans;
+}
