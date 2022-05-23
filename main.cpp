@@ -34,28 +34,6 @@ bool In(vector<bool> IN)
             return true;
     return false;
 }
-vector <int> Algorithm(double** M, int n)
-{
-    int L = 0;
-    vector <int> Ans;
-    vector <bool> IN (n);
-    for (int i = 0; i < n; ++i)
-    {
-        if (M[L][n] > M[i][n])
-            L = i;
-        IN[i] = false;
-    }
-    Ans.push_back(L);
-    IN[L] = true;
-    while(In(IN))
-    {
-        IN[L] = true;
-        Ans.push_back(L);
-    }
-    return Ans;
-}
-
-
 
 //file reading
 vector <string> List(string dir)
@@ -315,6 +293,18 @@ class Graph
 };
 /////////////class end
 
+bool checkpoint(const vector<int>& data)
+{
+    int i;
+    for (i = 0; i < data.size(); i++)
+    {
+        if (i == data[data[i] - 1] - 1)
+        {
+            return false;
+        }
+    }
+    return true;
+}
 
 int Sol(int N, vector<int> weights, int W, vector<int> values)
 {
