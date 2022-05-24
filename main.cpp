@@ -115,9 +115,6 @@ class Graph
                 return false;
         }
 
-
-
-
         void Exterminate_the_line()
         {
             double c, m;
@@ -209,38 +206,8 @@ class Graph
             return output;
         }
     
-        void Edge_price()
-        {
-            double c = 0, e_p = 0;//c for counter
-            int i, j;
-            pair <int, int> temp;
-            for (i = 0; i < M.size(); i++)
-                for (j = 0; j < M.size(); j++)
-                    if (M[i][j] == 0)
-                        if (Minimum(i, j) > c)
-                        {
-                            temp = make_pair(i, j);
-                            e_p = M_tempo[i][j]*2.4;
-                            
-                            if (find(the_cycle.begin(), the_cycle.end(), cordinates[i].N) == the_cycle.end())
-                            {
-                                the_cycle.push_back(cordinates[i].N);
-                            }
-                            
-                            if (find(the_cycle.begin(), the_cycle.end(), cordinates[j].N) == the_cycle.end())
-                            {
-                                the_cycle.push_back(cordinates[j].N);
-                            }
-                        }
-            num_of_edge++;
-            
-            M[temp.second][temp.first] = -1;
-            M[temp.first][temp.second] = -1;
-            
-            price = price + e_p;
-        }
     
-        void Exterminate_the_matrix()
+    void Exterminate_the_matrix()
         {
             int a = -1, c;
             int i, j;
@@ -290,21 +257,42 @@ class Graph
     
         }
     
-};
-/////////////class end
 
-bool checkpoint(const vector<int>& data)
-{
-    int i;
-    for (i = 0; i < data.size(); i++)
-    {
-        if (i == data[data[i] - 1] - 1)
+    
+        void Edge_price()
         {
-            return false;
+            double c = 0, e_p = 0;//c for counter
+            int i, j;
+            pair <int, int> temp;
+            for (i = 0; i < M.size(); i++)
+                for (j = 0; j < M.size(); j++)
+                    if (M[i][j] == 0)
+                        if (Minimum(i, j) > c)
+                        {
+                            temp = make_pair(i, j);
+                            e_p = M_tempo[i][j]*2.4;
+                            
+                            if (find(the_cycle.begin(), the_cycle.end(), cordinates[i].N) == the_cycle.end())
+                            {
+                                the_cycle.push_back(cordinates[i].N);
+                            }
+                            
+                            if (find(the_cycle.begin(), the_cycle.end(), cordinates[j].N) == the_cycle.end())
+                            {
+                                the_cycle.push_back(cordinates[j].N);
+                            }
+                        }
+            num_of_edge++;
+            
+            M[temp.second][temp.first] = -1;
+            M[temp.first][temp.second] = -1;
+            
+            price = price + e_p;
         }
-    }
-    return true;
-}
+};
+        
+
+
 
 int Sol(int N, vector<int> weights, int W, vector<int> values)
 {
